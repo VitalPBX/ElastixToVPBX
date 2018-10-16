@@ -54,3 +54,5 @@ Whit this script you can migrate the following data:
 - **Call Groups & Pickup Groups**
 ## Important Note
 This script only migrates the data from Elastix database, so, you will need to upload your recordings after migration.
+
+This script is only compatible with the Version 2.0.5 of VitalPBX and above
