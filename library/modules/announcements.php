@@ -20,7 +20,7 @@ class announcements extends module implements postDestinations {
 	}
 
 	public function migrate(){
-		echo "Migrating Inbound Routes.......\n";
+		echo "Migrating Announcements.......\n";
 		$db = $this->db;
 		$db->start_transaction();
 		$rows = $this->getElastixData();
