@@ -48,7 +48,7 @@ class announcements extends module implements postDestinations {
 		$db->query(
 			$query,
 			$item->description,
-			recordings::getRecordingID($item->recording_id),
+			recordings::getRecordingID($item->recording_id, $db),
 			$destination_id
 		);
 	}
