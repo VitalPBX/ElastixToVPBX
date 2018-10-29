@@ -30,6 +30,8 @@ class extensions extends module {
 					where `id` = {$row->id}";
 
 			$settings = $this->db->query($query)->get_rows();
+			$extensions[$i]['record_in'] = 'no';
+			$extensions[$i]['record_out'] = 'no';
 			foreach ($settings as $setting){
 				$extensions[$i][$setting->keyword] = $setting->data;
 			}
