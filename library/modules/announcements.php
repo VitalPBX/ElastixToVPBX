@@ -43,7 +43,7 @@ class announcements extends module implements postDestinations {
 		$destination_id = self::buildTemporaryDestination('preannoun');
 		$query = "insert into `{$database}`.`ombu_announcements` 
 					  (`description`, `recording_id`, `destination_id`) values
-					  (?,?,?,?,?)";
+					  (?,?,?)";
 
 		$db->query(
 			$query,
