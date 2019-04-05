@@ -7,6 +7,7 @@ class destination{
 	private $_module;
 	private $_index;
 	private $_current_id;
+	private $tenant_id;
 
 	/**
 	 * @var simple_pdo
@@ -32,6 +33,18 @@ class destination{
 		$this->_category_id = $this->_getCategoryID($category);
 		$this->_module_id = $this->_getModuleIDByName($module);
 		$this->_index = $this->_parseIndex($category, $index);
+		$this->tenant_id = $this->_getTenantID();
+	}
+
+	private function _getTenantID(){
+		$query = "select `tenant_id` from `{$database}`.`ombu_tenants` where `name` = 'vitalpbx'";
+		$rows = $this->db->query($query)->get_rows();
+		$tenant_id = null
+
+		if(array($rows) && array_key_exists(0,$rows))
+			$tenant_id = $rows[0]->tenant_id;
+
+		return $tenant_id;
 	}
 
 	private function _getIndex($category,&$index){
@@ -51,14 +64,14 @@ class destination{
 			return $this->_current_id;
 
 		$database = \config::pbx_db;
-		$parameters = [$this->_category_id, $this->_module_id, $this->_index];
+		$parameters = [$this->_category_id, $this->_module_id, $this->_index, $this->tenant_id];
 
 		if(!$this->_current_id){
 			$query = "insert into `{$database}`.`ombu_destinations`
-						(`category_id`, `module_id`, `index`) values (?, ?, ?)";
+						(`category_id`, `module_id`, `index`, `tenant_id`) values (?, ?, ?, ?)";
 		}else{
 			$query = "update `{$database}`.`ombu_destinations` set 
-						`category_id` = ?, `module_id` = ?,  `index` = ? where `id` = ?";
+						`category_id` = ?, `module_id` = ?,  `index` = ?, `tenant_id` = ? where `id` = ?";
 			$parameters[] = $this->_current_id;
 		}
 
