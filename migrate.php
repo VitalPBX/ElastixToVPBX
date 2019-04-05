@@ -22,6 +22,16 @@ class migrate{
 	}
 
 	public function run(){
+		$db = $this->db;
+		$database = \config::pbx_db;
+
+		$query = "select `tenant_id` from `{$database}`.`ombu_tenants` where `name` = 'vitalpbx'";
+		$rows = $this->db->query($query)->get_rows();
+		$tenant_id = null
+
+		if(array($rows) && array_key_exists(0,$rows))
+			$tenant_id = $rows[0]->tenant_id;
+
 		$pattern = buildpath([ __DIR__, 'library', 'modules', '*.php' ]);
 		foreach (glob($pattern) as $filename) {
 			include_once($filename);
@@ -31,7 +41,7 @@ class migrate{
 		$migratedModules = [];
 		foreach (get_declared_classes() as $classname) {
 			if (is_subclass_of($classname, "\\library\\module")) {
-				$module = new $classname($this->db);
+				$module = new $classname($this->db, $tenant_id);
 				$reflection = new \ReflectionClass($classname);
 				$shortName = $reflection->getShortName();
 				$module->runMigration($migratedModules);

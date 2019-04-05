@@ -47,8 +47,8 @@ class callback extends module implements postDestinations {
 
 		$destination_id = self::buildTemporaryDestination('call_back');
 		$query = "insert into `{$database}`.`ombu_callbacks` 
-					  (`description`, `dialnumber`, `delay`, `class_of_service_id`, `destination_id`) values
-					  (?,?,?,?,?)";
+					  (`description`, `dialnumber`, `delay`, `class_of_service_id`, `destination_id`, `tenant_id`) values
+					  (?,?,?,?,?,?)";
 
 		$db->query(
 			$query,
@@ -56,7 +56,8 @@ class callback extends module implements postDestinations {
 			$item->dialnumber,
 			$item->delay,
 			1, //Hard Code - Class of Service
-			$destination_id
+			$destination_id,
+			$this->tenant_id
 		);
 	}
 

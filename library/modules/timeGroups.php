@@ -49,8 +49,8 @@ class timeGroups extends module {
 		
 		echo "Adding TimeGroup: {$item->description}\n";
 		
-		$query = "insert into `{$database}`.`ombu_time_groups` (`description`) values (?)";
-		$group = $db->query($query, $item->description);
+		$query = "insert into `{$database}`.`ombu_time_groups` (`description`, `tenant_id`) values (?, ?)";
+		$group = $db->query($query, $item->description, $this->tenant_id);
 		$time_group_id = $group->get_inserted_id();
 		$this->_addSchedules($item->schedules, $time_group_id, $db);
 	}
@@ -64,15 +64,13 @@ class timeGroups extends module {
 				continue;
 			
 			$query  = "insert into `{$database}`.`ombu_time_groups_schedules`
-							(`time_group_id`, `time`, `sort`, `tcini`, `tcend`) values (?, ?, ?, ?, ?)";
+							(`time_group_id`, `time`, `sort`) values (?, ?, ?)";
 			
 			$db->query(
 				$query,
 				$time_group_id,
 				$schedule->time,
-				$i,
-				$schedule->tcini,
-				$schedule->tcend
+				$i
 			);
 		}
 	}

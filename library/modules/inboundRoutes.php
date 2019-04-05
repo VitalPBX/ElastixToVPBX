@@ -44,8 +44,8 @@ class inboundRoutes extends module implements postDestinations {
 
 		$destination_id = self::buildTemporaryDestination('inbound_route');
 		$query = "insert into `{$database}`.`ombu_inbound_routes` 
-					  (`description`, `did`, `cid_number`, `language`, `destination_id`) values
-					  (?,?,?,?,?)";
+					  (`description`, `did`, `cid_number`, `language`, `destination_id`, `tenant_id`) values
+					  (?,?,?,?,?,?)";
 
 		$db->query(
 			$query,
@@ -53,7 +53,8 @@ class inboundRoutes extends module implements postDestinations {
 			$item->did,
 			$item->cid_number,
 			'en', //Hard Code - Language
-			$destination_id
+			$destination_id,
+			$this->tenant_id
 		);
 	}
 

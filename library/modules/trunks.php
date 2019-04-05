@@ -117,8 +117,9 @@ class trunks extends module {
 					`incoming_username`,
 					`mode`,
 					`register_flag`,
-					`disable`
-					) values (?,?,?,?,?,?,?,?,?,?)";
+					`disable`,
+					`tenant_id`
+					) values (?,?,?,?,?,?,?,?,?,?,?)";
 
 
 		$technology = ($trunk->technology === 'zap' || $trunk->technology === 'dahdi' ? 'telephony' : $trunk->technology);
@@ -133,7 +134,8 @@ class trunks extends module {
 			$trunk->incoming_username,
 			($technology === 'telephony' ? 'visual': 'plain'),
 			'no',
-			'no'
+			'no',
+			$this->tenant_id
 		);
 
 		$trunk_id = $q->get_inserted_id();

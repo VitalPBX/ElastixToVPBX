@@ -3,9 +3,11 @@ namespace library;
 
 abstract class module{
 	protected $db;
+	protected $tenant_id;
 
-	public function __construct(simple_pdo $db){
+	public function __construct(simple_pdo $db, $tenant_id = null){
 		$this->db = $db;
+		$this->tenant_id = $tenant_id;
 	}
 
 	abstract protected function getElastixData();

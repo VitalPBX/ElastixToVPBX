@@ -79,8 +79,8 @@ class ivr extends module implements postDestinations {
 
 		$query = "insert into `{$database}`.`ombu_ivrs` 
 					  (`description`, `invalid_tries`, `timeout_tries`, `invalid_add_msg`, `timeout_add_msg`, `freedial`, 
-					  `timeout`, `invalid_destination_id`, `timeout_destination_id`, `welcome_msg_id`, `invalid_msg_id`, `timeout_msg_id`) values
-					  (?,?,?,?,?,?,?,?,?,?,?,?)";
+					  `timeout`, `invalid_destination_id`, `timeout_destination_id`, `welcome_msg_id`, `invalid_msg_id`, `timeout_msg_id`, `tenant_id`) values
+					  (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		$freedial = (preg_match('/(checked|yes)/i', $item->enable_directdial) ? 'yes' : 'no');
 
@@ -97,7 +97,8 @@ class ivr extends module implements postDestinations {
 			$timeout_destination_id,
 			recordings::getRecordingID($item->announcement_id, $db),
 			recordings::getRecordingID($item->invalid_id, $db),
-			recordings::getRecordingID($item->timeout_id, $db)
+			recordings::getRecordingID($item->timeout_id, $db),
+			$this->tenant_id
 		);
 
 		$ivr_id = $ivr->get_inserted_id();

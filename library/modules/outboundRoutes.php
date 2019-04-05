@@ -74,10 +74,10 @@ class outboundRoutes extends module {
 		$database = \config::pbx_db;
 		$db = $this->db;
 		$query = "insert into `{$database}`.`ombu_outbound_routes` 
-						(`description`, `intra_company`) values (?, ?)";
+						(`description`, `intra_company`, `tenant_id`) values (?, ?, ?)";
 
 		$intracompany = (preg_match('/yes/i', $route->intracompany) ? 'yes' : 'no');
-		$result = $db->query($query, $route->description, $intracompany);
+		$result = $db->query($query, $route->description, $intracompany, $this->tenant_id);
 		$outbound_route_id = $result->get_inserted_id();
 
 		//Add trunks

@@ -63,8 +63,9 @@ class conferences extends module {
 					`end_marked`,
 					`dsp_drop_silence`,
 					`talk_detection_events`,
-					`announce_join_leave`
-					) values  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					`announce_join_leave`,
+					`tenant_id`
+					) values  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		
 		$db->query(
@@ -86,7 +87,8 @@ class conferences extends module {
 			$item->end_marked,
 			$item->dsp_drop_silence,
 			$item->talk_detection_events,
-			$item->announce_join_leave
+			$item->announce_join_leave,
+			$this->tenant_id
 		);
 		
 	}

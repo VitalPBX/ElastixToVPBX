@@ -46,13 +46,14 @@ class classOfServices extends module {
 		
 		echo "Adding Class of Service: {$item->description}\n";
 		$query = "insert into `{$database}`.ombu_classes_of_service
-					(`cos`, `description`, `default`) values (?,?,?)";
+					(`cos`, `description`, `default`, `tenant_id`) values (?,?,?,?)";
 		
 		$db->query(
 			$query,
 			$item->context,
 			$item->description,
-			'no'
+			'no',
+			$this->tenant_id
 		);
 	}
 	

@@ -45,8 +45,8 @@ class disa extends module {
 		echo "Adding DISA: {$item->description}\n";
 
 		$query = "insert into `{$database}`.`ombu_disa` 
-					  (`description`, `class_of_service_id`, `password`, `resp_timeout`, `digit_timeout`) values
-					  (?,?,?,?,?)";
+					  (`description`, `class_of_service_id`, `password`, `resp_timeout`, `digit_timeout`, `tenant_id`) values
+					  (?,?,?,?,?,?)";
 
 		$db->query(
 			$query,
@@ -54,7 +54,8 @@ class disa extends module {
 			$this->_getClassOfServiceID($item->context),
 			(!strlen($item->password) ? rand(100, 200) : $item->password),
 			$item->resp_timeout,
-			$item->digit_timeout
+			$item->digit_timeout,
+			$this->tenant_id
 		);
 	}
 

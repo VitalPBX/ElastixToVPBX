@@ -80,8 +80,9 @@ class extensions extends module {
 					 `accountcode`,
 					 `features_password`,
 					 `incoming_rec`,
-					 `outgoing_rec`
-					 ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					 `outgoing_rec`,
+					 `tenant_id`
+					 ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		$result = $db->query(
 			$query,
@@ -96,7 +97,8 @@ class extensions extends module {
 			$item->accountcode,
 			"*{$item->extension}",
 			(preg_match('/always/i', $item->record_in) ? 'yes' : 'no'),
-			(preg_match('/always/i', $item->record_out) ? 'yes' : 'no')
+			(preg_match('/always/i', $item->record_out) ? 'yes' : 'no'),
+			$this->tenant_id
 		);
 
 		$extension_id = $result->get_inserted_id();
@@ -123,7 +125,7 @@ class extensions extends module {
 
 		//Add Device
 		$query = "insert into `{$database}`.`ombu_devices` 
-					(`extension_id`, `profile_id`, `user`, `secret`, `description`, `ring_device`, `technology`) values (?, ?, ?, ?, ?, ?, ?)";
+					(`extension_id`, `profile_id`, `user`, `secret`, `description`, `ring_device`, `technology`, `tenant_id`) values (?, ?, ?, ?, ?, ?, ?, ?)";
 
 		$device = $db->query(
 			$query,
@@ -133,7 +135,8 @@ class extensions extends module {
 			$item->secret,
 			$item->description,
 			'yes',
-			$item->technology
+			$item->technology,
+			$this->tenant_id
 		);
 
 		$device_id = $device->get_inserted_id();

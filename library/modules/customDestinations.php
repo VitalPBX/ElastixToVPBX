@@ -38,14 +38,15 @@ class customDestinations extends module {
 		echo "Adding Custom Destination: {$item->description}\n";
 
 		$query = "insert into `{$database}`.`ombu_custom_destinations` 
-					  (`description`, `destination`, `class_of_service_id`) values
-					  (?,?,?)";
+					  (`description`, `destination`, `class_of_service_id`, `tenant_id`) values
+					  (?,?,?,?)";
 
 		$db->query(
 			$query,
 			$item->description,
 			$item->destination,
-			1 //Hard Code - Class of Service
+			1, //Hard Code - Class of Service
+			$this->tenant_id
 		);
 	}
 

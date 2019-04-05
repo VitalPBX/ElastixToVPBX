@@ -51,7 +51,7 @@ class ringGroups extends module implements postDestinations {
 		echo "Adding Ring Group: {$item->description}\n";
 
 		$query = "insert into `{$database}`.`ombu_ring_groups`
-					  (`extension`, `description`, `strategy`, `ringtime`, `prefix`) values (?, ?, ?, ?, ?)";
+					  (`extension`, `description`, `strategy`, `ringtime`, `prefix`, `tenant_id`) values (?, ?, ?, ?, ?, ?)";
 
 
 		$ringGroup = $db->query($query,
@@ -59,7 +59,8 @@ class ringGroups extends module implements postDestinations {
 			$item->description,
 			($item->strategy === 'hunt' ? 'one_by_one' : 'ringall'),
 			$item->ringtime,
-			$item->prefix
+			$item->prefix,
+			$this->tenant_id
 		);
 
 		$id = $ringGroup->get_inserted_id();

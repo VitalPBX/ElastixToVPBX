@@ -100,8 +100,9 @@ class queues extends module implements postDestinations {
 					`leavewhenempty`,
 					`retry`,
 					`announce_holdtime`,
-					`announce_position`
-					) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					`announce_position`,
+					`tenant_id`
+					) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		$result = $db->query(
 			$query,
@@ -125,7 +126,8 @@ class queues extends module implements postDestinations {
 			$item->leavewhenempty,
 			$item->retry,
 			$item->announce_holdtime,
-			$item->announce_position
+			$item->announce_position,
+			$this->tenant_id
 		);
 
 		$queue_id = $result->get_inserted_id();

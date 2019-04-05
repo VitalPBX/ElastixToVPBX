@@ -89,8 +89,8 @@ class huntingGroups extends module {
 
 		echo "Adding Hunting Group: {$item->description}\n";
 
-		$query = "insert into `{$database}`.`ombu_pickup_groups` (`description`) values (?)";
-		$group = $db->query($query, $item->description);
+		$query = "insert into `{$database}`.`ombu_pickup_groups` (`description`, `tenant_id`) values (?, ?)";
+		$group = $db->query($query, $item->description, $this->tenant_id);
 		$pickup_group_id = $group->get_inserted_id();
 
 		$this->_addMembers($item, $pickup_group_id, $db);

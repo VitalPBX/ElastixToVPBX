@@ -50,10 +50,10 @@ class timeConditions extends module implements postDestinations {
 		$match_destination_id = self::buildTemporaryDestination('time_conditions');
 		$mismatch_destination_id = self::buildTemporaryDestination('time_conditions');
 
-		$query = "insert into `{$database}`.`ombu_time_conditions` (`description`, `time_group_id`, `match_destination_id`, `mismatch_destination_id`) values (?, ?, ?, ?)";
+		$query = "insert into `{$database}`.`ombu_time_conditions` (`description`, `time_group_id`, `match_destination_id`, `mismatch_destination_id`, `tenant_id`) values (?, ?, ?, ?, ?)";
 		$time_group_id = $this->_getTimeGroupIDByDescription($item->time_group_desc);
 
-		$db->query($query, $item->description, $time_group_id, $match_destination_id, $mismatch_destination_id);
+		$db->query($query, $item->description, $time_group_id, $match_destination_id, $mismatch_destination_id, $this->tenant_id);
 	}
 
 	private function _getTimeGroupIDByDescription($description){

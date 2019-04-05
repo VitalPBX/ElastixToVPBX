@@ -47,14 +47,15 @@ class recordings extends module {
 		$filename = str_replace('custom/','', array_shift($filename).".wav");
 
 		$query = "insert into `{$database}`.`ombu_recordings` 
-					  (`original_filename`, `name`, `duration`) values
-					  (?,?,?)";
+					  (`original_filename`, `name`, `duration`,`tenant_id`) values
+					  (?,?,?,?)";
 
 		$db->query(
 			$query,
 			$filename,
 			$item->name,
-			0
+			0,
+			$this->tenant_id
 		);
 	}
 
