@@ -27,9 +27,9 @@ class migrate{
 
 		$query = "select `tenant_id` from `{$database}`.`ombu_tenants` where `name` = 'vitalpbx'";
 		$rows = $this->db->query($query)->get_rows();
-		$tenant_id = null
+		$tenant_id = null;
 
-		if(array($rows) && array_key_exists(0,$rows))
+		if(is_array($rows) && array_key_exists(0,$rows))
 			$tenant_id = $rows[0]->tenant_id;
 
 		$pattern = buildpath([ __DIR__, 'library', 'modules', '*.php' ]);

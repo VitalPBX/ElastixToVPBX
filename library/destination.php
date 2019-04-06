@@ -33,15 +33,16 @@ class destination{
 		$this->_category_id = $this->_getCategoryID($category);
 		$this->_module_id = $this->_getModuleIDByName($module);
 		$this->_index = $this->_parseIndex($category, $index);
-		$this->tenant_id = $this->_getTenantID();
+		$this->tenant_id = null;
 	}
 
 	private function _getTenantID(){
+		$database = \config::pbx_db;
 		$query = "select `tenant_id` from `{$database}`.`ombu_tenants` where `name` = 'vitalpbx'";
 		$rows = $this->db->query($query)->get_rows();
-		$tenant_id = null
+		$tenant_id = null;
 
-		if(array($rows) && array_key_exists(0,$rows))
+		if(is_array($rows) && array_key_exists(0,$rows))
 			$tenant_id = $rows[0]->tenant_id;
 
 		return $tenant_id;
@@ -64,14 +65,14 @@ class destination{
 			return $this->_current_id;
 
 		$database = \config::pbx_db;
-		$parameters = [$this->_category_id, $this->_module_id, $this->_index, $this->tenant_id];
+		$parameters = [$this->_category_id, $this->_module_id, $this->_index];
 
 		if(!$this->_current_id){
 			$query = "insert into `{$database}`.`ombu_destinations`
-						(`category_id`, `module_id`, `index`, `tenant_id`) values (?, ?, ?, ?)";
+						(`category_id`, `module_id`, `index`) values (?, ?, ?)";
 		}else{
 			$query = "update `{$database}`.`ombu_destinations` set 
-						`category_id` = ?, `module_id` = ?,  `index` = ?, `tenant_id` = ? where `id` = ?";
+						`category_id` = ?, `module_id` = ?,  `index` = ? where `id` = ?";
 			$parameters[] = $this->_current_id;
 		}
 
