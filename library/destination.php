@@ -137,6 +137,9 @@ class destination{
 			case 'callback':
 				return 'call_back';
 				break;
+                        case 'timeconditions':
+				return 'time_conditions';
+				break;
 			default:
 				if(preg_match('/ivr/i',$category))
 					return 'ivr';
@@ -184,10 +187,33 @@ class destination{
 			case 'preannoun':
 				return $this->_getAnnouncementIndex($index);
 				break;
+			case 'time_conditions':
+				return $this->_getTCIndex($index);
+				break;
 		}
 
 		return 1;
 	}
+
+	private function _getTCIndex($index){
+                $elastixDB = \config::elastix_db;
+                $database = \config::pbx_db;
+
+                $query = "select `displayname` as `description` from `{$elastixDB}`.`timeconditions` where `timeconditions_id` = ?";
+                $rows = $this->db->query($query, $index)->get_rows();
+
+                if(is_array($rows) && array_key_exists(0, $rows)){
+                        $description = $rows[0]->description;
+                        $query = "select `time_condition_id` from `{$database}`.`ombu_time_conditions` where `description` = ?";
+                        $rows = $this->db->query($query, $description)->get_rows();
+
+                        if(is_array($rows) && array_key_exists(0, $rows))
+                                return $rows[0]->time_condition_id;
+                }
+
+                return null;
+        }
+
 
 	private function _getAnnouncementIndex($index){
 		$elastixDB = \config::elastix_db;
