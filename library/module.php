@@ -33,7 +33,7 @@ abstract class module{
 			$dependencyClassName = "\\library\\modules\\{$dependency}";
 			if(class_exists($dependencyClassName) && is_subclass_of($dependencyClassName, "\\library\\module")){
 				echo "Processing {$dependency} class as Dependency\n";
-				$o = new $dependencyClassName($this->db);
+				$o = new $dependencyClassName($this->db, $this->tenant_id);
 				$o->runMigration($migratedModules);
 			}
 		}
