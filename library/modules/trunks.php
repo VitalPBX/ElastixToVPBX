@@ -123,6 +123,7 @@ class trunks extends module {
 
 
 		$technology = ($trunk->technology === 'zap' || $trunk->technology === 'dahdi' ? 'telephony' : $trunk->technology);
+                $technology = ($technology === 'iax' ? 'iax2' : $technology);
 
 		$q = $db->query($query,
 			$trunk->description,
@@ -140,7 +141,7 @@ class trunks extends module {
 
 		$trunk_id = $q->get_inserted_id();
 
-		if(in_array($technology, ['sip', 'iax'])){
+		if(in_array($technology, ['sip', 'iax', 'iax2'])){
 			$this->_addTrunkParameters($trunk_id, $parameters);
 			$this->_addTrunkParameters($trunk_id, $parameters, 'user');
 		}
