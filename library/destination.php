@@ -316,6 +316,10 @@ class destination{
 		$database = \config::pbx_db;
 
 		$query = "select `displayname` as `description` from `{$elastixDB}`.`ivr` where `ivr_id` = ?";
+		if($this->tableExists($elastixDB, 'ivr_details')){
+			$query = "select `name` as `description` from `{$elastixDB}`.`ivr_details` where `id` = ?";
+		}
+		
 		$rows = $this->db->query($query, $index)->get_rows();
 
 		if(is_array($rows) && array_key_exists(0, $rows)){
@@ -339,5 +343,14 @@ class destination{
 			return $rows[0]->$idField;
 
 		return null;
+	}
+
+	private function tableExists($database, $table){
+		$query = "select * from information_schema.tables
+					where `table_schema` = '$database' and `table_name` = '$table'
+					limit 1";
+		
+		$rows = $this->db->query($query)->get_rows();
+		return count($rows);
 	}
 }

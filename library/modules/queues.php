@@ -176,7 +176,12 @@ class queues extends module implements postDestinations {
 		if(!strlen(trim($ivr_id)))
 			return null;
 
+
 		$query = "select `displayname` as `description` from `{$elastixDB}`.`ivr` where `ivr_id` = ?";
+		if($this->tableExists($elastixDB, 'ivr_details')){
+			$query = "select `name` as `description` from `{$elastixDB}`.`ivr_details` where `id` = ?";
+		}
+		
 		$rows = $this->db->query($query, $ivr_id)->get_rows();
 
 		if(is_array($rows) && array_key_exists(0, $rows)){

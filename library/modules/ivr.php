@@ -21,6 +21,22 @@ class ivr extends module implements postDestinations {
 					 `invalid_id`
 				  from `{$database}`.`ivr`";
 
+	    $entries_tbl = 'ivr_dests';
+
+	    if($this->tableExists($database, 'ivr_details')){
+	    	$query = "select 
+					`id` as `ivr_id`, 
+					`name` as `description`, 
+					IF(directdial is null, 'no', 'yes') as `enable_directdial`,
+					 `announcement` as `announcement_id`,
+					 `timeout_recording` as `timeout_id`,
+					 `invalid_recording` as `invalid_id`
+				  from `{$database}`.`ivr_details`";
+
+		    $entries_tbl = 'ivr_entries';
+	    }
+
+
 		$rows = $this->db->query($query)->get_rows();
 
 		foreach ($rows as $i => $row){
@@ -31,7 +47,7 @@ class ivr extends module implements postDestinations {
 				"select 
 						 `selection` as `option` ,
 						 `dest`
-					   from `{$database}`.`ivr_dests` 
+					   from `{$database}`.`{$entries_tbl}` 
 					   where `ivr_id` = ?",
 				$row->ivr_id
 			)->get_rows();
